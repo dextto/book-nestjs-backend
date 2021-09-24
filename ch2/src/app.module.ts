@@ -6,10 +6,16 @@ import { ApiController } from './api-controller/api-controller.controller';
 import { BaseService } from './base-service';
 import { ServiceA } from './service-A';
 import { ServiceB } from './service-B';
+import { LoggerService } from './logger.service';
+
+const loggerAliasProvider = {
+  provide: 'AliasedLoggerService',
+  useExisting: LoggerService,
+};
 
 @Module({
   controllers: [ApiController, AppController],
-  providers: [AppService, BaseService, ServiceA, ServiceB],
+  providers: [AppService, BaseService, ServiceA, ServiceB, LoggerService, loggerAliasProvider],
   imports: [UsersModule],
 })
 export class AppModule {}

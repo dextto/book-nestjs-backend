@@ -7,6 +7,7 @@ export class AppController {
   constructor(
     private readonly appService: AppService,
     private readonly serviceB: ServiceB,
+    @Inject('AliasedLoggerService') private readonly serviceAlias: any,
   ) {}
 
   @Get()
@@ -17,5 +18,10 @@ export class AppController {
   @Get('/serviceB')
   getHelloC(): string {
     return this.serviceB.getHello();
+  }
+
+  @Get('/alias')
+  getHelloAlias(): string {
+    return this.serviceAlias.getHello();
   }
 }
