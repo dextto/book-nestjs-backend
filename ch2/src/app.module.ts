@@ -7,6 +7,7 @@ import { BaseService } from './base-service';
 import { ServiceA } from './service-A';
 import { ServiceB } from './service-B';
 import { LoggerService } from './logger.service';
+import { CoreModule } from './core/core.module';
 
 const loggerAliasProvider = {
   provide: 'AliasedLoggerService',
@@ -16,6 +17,6 @@ const loggerAliasProvider = {
 @Module({
   controllers: [ApiController, AppController],
   providers: [AppService, BaseService, ServiceA, ServiceB, LoggerService, loggerAliasProvider],
-  imports: [UsersModule],
+  imports: [UsersModule, CoreModule],
 })
 export class AppModule {}
