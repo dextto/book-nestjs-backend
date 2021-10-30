@@ -28,10 +28,10 @@ export class EmailService {
     });
   }
 
-  async sendMemberJoinVerification(emailAddress: string, authToken: string) {
+  async sendMemberJoinVerification(emailAddress: string, signupVerifyToken: string) {
     const baseUrl = this.config.baseUrl;
 
-    const url = `${baseUrl}/users/email-verification?authToken=${authToken}`;
+    const url = `${baseUrl}/users/email-verification?signupVerifyToken=${signupVerifyToken}`;
 
     const mailOptions: EmailOptions = {
       to: emailAddress,
