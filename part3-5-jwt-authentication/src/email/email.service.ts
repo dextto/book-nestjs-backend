@@ -16,8 +16,7 @@ export class EmailService {
   private transporter: Mail;
 
   constructor(
-    @Inject(emailConfig.KEY) private config,
-    // @Inject(emailConfig.KEY) private config: ConfigType<typeof emailConfig>,
+    @Inject(emailConfig.KEY) private config: ConfigType<typeof emailConfig>,
   ) {
     this.transporter = nodemailer.createTransport({
       service: config.service,
