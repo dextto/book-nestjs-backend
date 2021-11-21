@@ -4,7 +4,7 @@ export class CreateUserDto {
   @IsString()
   @MinLength(1)
   @MaxLength(20)
-  name: string;
+  readonly name: string;
 
   @IsEmail()
   email: string;
