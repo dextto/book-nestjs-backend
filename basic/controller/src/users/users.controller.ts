@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpCode, NotFo
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { GetUsersDto } from './dto/get-users.dto';
 
 @Controller('users')
 export class UsersController {
@@ -15,7 +16,9 @@ export class UsersController {
   }
 
   @Get()
-  findAll(@Res() res) {
+  findAll(@Res() res, @Query() dto: GetUsersDto) {
+    console.log(dto);
+
     const users = this.usersService.findAll()
 
     return res.status(200).send(users);
