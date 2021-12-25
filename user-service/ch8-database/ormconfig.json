@@ -6,5 +6,11 @@
   "password": "test",
   "database": "test",
   "entities": ["dist/**/*.entity{.ts,.js}"],
-  "synchronize": true
+  "synchronize": false,
+  "migrations": ["dist/migrations/*{.ts,.js}"],
+  "cli": {
+    "migrationsDir": "src/migrations"
+  },
+  "migrationsTableName": "migrations",
+  "migrationsRun": true
 }
