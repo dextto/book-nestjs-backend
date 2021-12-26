@@ -1,5 +1,5 @@
 import { Controller, Get, Req, ValidationPipe } from '@nestjs/common';
-import { IsString, validateSync } from 'class-validator';
+import { IsString } from 'class-validator';
 import { AppService } from './app.service';
 import { User } from './user.decorator';
 import { UserData } from './user-data.decorator';
