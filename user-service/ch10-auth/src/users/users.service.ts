@@ -111,7 +111,7 @@ export class UsersService {
     const user = await this.usersRepository.findOne({ email, password });
 
     if (!user) {
-      throw new NotFoundException('User does not exist');
+      throw new NotFoundException('유저가 존재하지 않습니다');
     }
 
     return this.authService.login({
@@ -122,9 +122,16 @@ export class UsersService {
   }
 
   async getUserInfo(userId: string): Promise<UserInfo> {
-    // 1. userId를 가진 유저가 존재하는지 DB에서 확인하고 없다면 에러 처리
-    // 2. 조회된 데이터를 UserInfo 타입으로 응답
+    const user = await this.usersRepository.findOne({ id: userId });
 
-    throw new Error('Method not implemented.');
+    if (!user) {
+      throw new NotFoundException('User does not exist');
+    }
+
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    };
   }
 }

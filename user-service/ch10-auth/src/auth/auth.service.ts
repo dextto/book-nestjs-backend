@@ -35,7 +35,6 @@ export class AuthService {
         userId: id,
         email,
       }
-
     } catch (e) {
       throw new UnauthorizedException()
     }
