@@ -5,11 +5,11 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { HttpExceptionFilter } from 'src/http-exception.filter';
 
 @Controller('users')
-  @UseFilters(HttpExceptionFilter)
+// @UseFilters(HttpExceptionFilter)
 export class UsersController {
   constructor(private readonly usersService: UsersService) { }
 
-  @UseFilters(HttpExceptionFilter)
+  // @UseFilters(HttpExceptionFilter)
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
