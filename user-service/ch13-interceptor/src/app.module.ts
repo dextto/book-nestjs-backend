@@ -11,6 +11,9 @@ import emailConfig from './config/emailConfig';
 import { validationSchema } from './config/validationSchema';
 import { UsersModule } from './users/users.module';
 import { ExceptionModule } from './exception/exception.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { LoggingInterceptor } from './logging/logging.interceptor';
+import { LoggingModule } from './logging/logging.module';
 
 @Module({
   imports: [
@@ -45,6 +48,7 @@ import { ExceptionModule } from './exception/exception.module';
     //   ],
     // }),
     ExceptionModule,
+    LoggingModule,
   ],
   controllers: [],
   providers: [],
