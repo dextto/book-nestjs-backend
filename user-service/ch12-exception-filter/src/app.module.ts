@@ -21,18 +21,16 @@ import { ExceptionModule } from './exception/exception.module';
       isGlobal: true,
       validationSchema,
     }),
-    // TypeOrmModule.forRoot({
-    //   type: 'mysql',
-    //   host: process.env.DATABASE_HOST, // 'localhost',
-    //   port: 3306,
-    //   username: process.env.DATABASE_USERNAME, // 'root',
-    //   password: process.env.DATABASE_PASSWORD, // 'test',
-    //   database: 'test',
-    //   entities: ['dist/**/*.entity{.ts,.js}'],
-    //   synchronize: Boolean(process.env.DATABASE_SYNCHRONIZE), // true,
-    // }),
-    //
-    TypeOrmModule.forRoot(),
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: process.env.DATABASE_HOST, // 'localhost',
+      port: 3306,
+      username: process.env.DATABASE_USERNAME, // 'root',
+      password: process.env.DATABASE_PASSWORD, // 'test',
+      database: 'test',
+      entities: ['dist/**/*.entity{.ts,.js}'],
+      synchronize: Boolean(process.env.DATABASE_SYNCHRONIZE), // true,
+    }),
     // WinstonModule.forRoot({
     //   transports: [
     //     new winston.transports.Console({
