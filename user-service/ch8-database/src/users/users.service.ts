@@ -1,18 +1,18 @@
 import * as uuid from 'uuid';
+import { ulid } from 'ulid';
 import { Injectable, InternalServerErrorException, UnprocessableEntityException } from '@nestjs/common';
 import { EmailService } from 'src/email/email.service';
 import { UserInfo } from './UserInfo';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Connection, Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { UserEntity } from './entity/user.entity';
-import { ulid } from 'ulid';
 
 @Injectable()
 export class UsersService {
   constructor(
     private emailService: EmailService,
     @InjectRepository(UserEntity) private usersRepository: Repository<UserEntity>,
-    private connection: Connection,
+    private dataSource: DataSource,
   ) { }
 
   async createUser(name: string, email: string, password: string) {
@@ -27,13 +27,17 @@ export class UsersService {
     // await this.saveUserUsingQueryRunner(name, email, password, signupVerifyToken);
     await this.saveUserUsingTransaction(name, email, password, signupVerifyToken);
 
-    await this.sendMemberJoinEmail(email, signupVerifyToken);
+    // await this.sendMemberJoinEmail(email, signupVerifyToken);
   }
 
   private async checkUserExists(emailAddress: string): Promise<boolean> {
-    const user = await this.usersRepository.findOne({ email: emailAddress });
+    const user = await this.usersRepository.findOne({
+      where: {
+        email: emailAddress
+      }
+    });
 
-    return user !== undefined;
+    return user !== null;
   }
 
   private async saveUser(name: string, email: string, password: string, signupVerifyToken: string) {
@@ -47,7 +51,7 @@ export class UsersService {
   }
 
   private async saveUserUsingQueryRunner(name: string, email: string, password: string, signupVerifyToken: string) {
-    const queryRunner = this.connection.createQueryRunner();
+    const queryRunner = this.dataSource.createQueryRunner();
 
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -75,7 +79,7 @@ export class UsersService {
   }
 
   private async saveUserUsingTransaction(name: string, email: string, password: string, signupVerifyToken: string) {
-    await this.connection.transaction(async manager => {
+    await this.dataSource.transaction(async manager => {
       const user = new UserEntity();
       user.id = ulid();
       user.name = name;

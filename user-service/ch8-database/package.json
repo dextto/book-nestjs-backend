@@ -26,7 +26,7 @@
     "@nestjs/core": "^8.0.6",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^8.0.6",
-    "@nestjs/typeorm": "^8.0.2",
+    "@nestjs/typeorm": "^9.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "joi": "^17.5.0",
@@ -35,7 +35,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.3.0",
-    "typeorm": "^0.2.41",
+    "typeorm": "^0.3.7",
     "ulid": "^2.3.0",
     "uuid": "^8.3.2"
   },
