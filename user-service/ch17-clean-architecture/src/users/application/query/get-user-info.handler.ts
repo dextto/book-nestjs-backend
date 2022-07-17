@@ -15,7 +15,9 @@ export class GetUserInfoQueryHandler implements IQueryHandler<GetUserInfoQuery> 
   async execute(query: GetUserInfoQuery): Promise<UserInfo> {
     const { userId } = query;
 
-    const user = await this.usersRepository.findOne({ id: userId });
+    const user = await this.usersRepository.findOne({
+      where: { id: userId }
+    });
 
     if (!user) {
       throw new NotFoundException('유저가 존재하지 않습니다');

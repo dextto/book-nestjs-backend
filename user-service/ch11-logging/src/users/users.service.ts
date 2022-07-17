@@ -39,7 +39,7 @@ export class UsersService {
       }
     });
 
-    return user !== undefined;
+    return user !== null;
   }
 
   private async saveUser(name: string, email: string, password: string, signupVerifyToken: string) {

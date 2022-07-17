@@ -17,7 +17,9 @@ export class VerifyEmailHandler implements ICommandHandler<VerifyEmailCommand> {
   async execute(command: VerifyEmailCommand) {
     const { signupVerifyToken } = command;
 
-    const user = await this.usersRepository.findOne({ signupVerifyToken });
+    const user = await this.usersRepository.findOne({
+      where: { signupVerifyToken }
+    });
 
     if (!user) {
       throw new NotFoundException('유저가 존재하지 않습니다');

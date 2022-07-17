@@ -15,7 +15,9 @@ export class UserRepository implements IUserRepository {
   ) { }
 
   async findByEmail(email: string): Promise<User | null> {
-    const userEntity = await this.userRepository.findOne({ email });
+    const userEntity = await this.userRepository.findOne({
+      where: { email }
+    });
     if (!userEntity) {
       return null;
     }
@@ -26,7 +28,9 @@ export class UserRepository implements IUserRepository {
   }
 
   async findByEmailAndPassword(email: string, password: string): Promise<User | null> {
-    const userEntity = await this.userRepository.findOne({ email, password });
+    const userEntity = await this.userRepository.findOne({
+      where: { email, password }
+    });
     if (!userEntity) {
       return null;
     }
@@ -37,7 +41,9 @@ export class UserRepository implements IUserRepository {
   }
 
   async findBySignupVerifyToken(signupVerifyToken: string): Promise<User | null> {
-    const userEntity = await this.userRepository.findOne({ signupVerifyToken });
+    const userEntity = await this.userRepository.findOne({
+      where: { signupVerifyToken }
+    });
     if (!userEntity) {
       return null;
     }

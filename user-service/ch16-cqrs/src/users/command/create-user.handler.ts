@@ -3,7 +3,7 @@ import { ulid } from 'ulid';
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Connection, Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { UserEntity } from '../entity/user.entity';
 import { CreateUserCommand } from './create-user.command';
 import { UserCreatedEvent } from '../event/user-created.event';
@@ -13,7 +13,7 @@ import { TestEvent } from '../event/test.event';
 @CommandHandler(CreateUserCommand)
 export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
   constructor(
-    private connection: Connection,
+    private dataSource: DataSource,
     private eventBus: EventBus,
 
     @InjectRepository(UserEntity) private usersRepository: Repository<UserEntity>,
@@ -36,13 +36,15 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
   }
 
   private async checkUserExists(emailAddress: string): Promise<boolean> {
-    const user = await this.usersRepository.findOne({ email: emailAddress });
+    const user = await this.usersRepository.findOne({
+      where: { email: emailAddress }
+    });
 
-    return user !== undefined;
+    return user !== null;
   }
 
   private async saveUserUsingTransaction(name: string, email: string, password: string, signupVerifyToken: string) {
-    await this.connection.transaction(async manager => {
+    await this.dataSource.transaction(async manager => {
       const user = new UserEntity();
       user.id = ulid();
       user.name = name;

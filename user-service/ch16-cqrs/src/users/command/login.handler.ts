@@ -17,7 +17,9 @@ export class LoginHandler implements ICommandHandler<LoginCommand> {
   async execute(command: LoginCommand) {
     const { email, password } = command;
 
-    const user = await this.usersRepository.findOne({ email, password });
+    const user = await this.usersRepository.findOne({
+      where: { email, password }
+    });
 
     if (!user) {
       throw new NotFoundException('유저가 존재하지 않습니다');
