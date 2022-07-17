@@ -3,7 +3,7 @@ import { Injectable, InternalServerErrorException, NotFoundException, Unprocessa
 import { InjectRepository } from '@nestjs/typeorm';
 import { EmailService } from 'src/email/email.service';
 import { UserInfo } from './UserInfo';
-import { Connection, Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { UserEntity } from './entity/user.entity';
 import { ulid } from 'ulid';
 import { AuthService } from 'src/auth/auth.service';
@@ -13,7 +13,7 @@ export class UsersService {
   constructor(
     private emailService: EmailService,
     @InjectRepository(UserEntity) private usersRepository: Repository<UserEntity>,
-    private connection: Connection,
+    private dataSource: DataSource,
     private authService: AuthService,
   ) { }
 
@@ -33,7 +33,11 @@ export class UsersService {
   }
 
   private async checkUserExists(emailAddress: string): Promise<boolean> {
-    const user = await this.usersRepository.findOne({ email: emailAddress });
+    const user = await this.usersRepository.findOne({
+      where: {
+        email: emailAddress
+      }
+    });
 
     return user !== undefined;
   }
@@ -49,7 +53,7 @@ export class UsersService {
   }
 
   private async saveUserUsingQueryRunner(name: string, email: string, password: string, signupVerifyToken: string) {
-    const queryRunner = this.connection.createQueryRunner();
+    const queryRunner = this.dataSource.createQueryRunner();
 
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -77,7 +81,7 @@ export class UsersService {
   }
 
   private async saveUserUsingTransaction(name: string, email: string, password: string, signupVerifyToken: string) {
-    await this.connection.transaction(async manager => {
+    await this.dataSource.transaction(async manager => {
       const user = new UserEntity();
       user.id = ulid();
       user.name = name;
@@ -94,7 +98,9 @@ export class UsersService {
   }
 
   async verifyEmail(signupVerifyToken: string): Promise<string> {
-    const user = await this.usersRepository.findOne({ signupVerifyToken });
+    const user = await this.usersRepository.findOne({
+      where: { signupVerifyToken }
+    });
 
     if (!user) {
       throw new NotFoundException('유저가 존재하지 않습니다');
@@ -108,7 +114,9 @@ export class UsersService {
   }
 
   async login(email: string, password: string): Promise<string> {
-    const user = await this.usersRepository.findOne({ email, password });
+    const user = await this.usersRepository.findOne({
+      where: { email, password }
+    });
 
     if (!user) {
       throw new NotFoundException('유저가 존재하지 않습니다');
@@ -122,7 +130,9 @@ export class UsersService {
   }
 
   async getUserInfo(userId: string): Promise<UserInfo> {
-    const user = await this.usersRepository.findOne({ id: userId });
+    const user = await this.usersRepository.findOne({
+      where: { id: userId }
+    });
 
     if (!user) {
       throw new NotFoundException('유저가 존재하지 않습니다');
