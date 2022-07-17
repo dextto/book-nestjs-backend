@@ -33,7 +33,9 @@ export class UsersService {
   }
 
   private async checkUserExists(emailAddress: string): Promise<boolean> {
-    const user = await this.usersRepository.findOne({ email: emailAddress });
+    const user = await this.usersRepository.findOne({
+      where: { email: emailAddress }
+    });
 
     return user !== undefined;
   }
@@ -94,7 +96,9 @@ export class UsersService {
   }
 
   async verifyEmail(signupVerifyToken: string): Promise<string> {
-    const user = await this.usersRepository.findOne({ signupVerifyToken });
+    const user = await this.usersRepository.findOne({
+      where: { signupVerifyToken }
+    });
 
     if (!user) {
       throw new NotFoundException('유저가 존재하지 않습니다');
@@ -108,7 +112,9 @@ export class UsersService {
   }
 
   async login(email: string, password: string): Promise<string> {
-    const user = await this.usersRepository.findOne({ email, password });
+    const user = await this.usersRepository.findOne({
+      where: { email, password }
+    });
 
     if (!user) {
       throw new NotFoundException('유저가 존재하지 않습니다');
@@ -122,7 +128,9 @@ export class UsersService {
   }
 
   async getUserInfo(userId: string): Promise<UserInfo> {
-    const user = await this.usersRepository.findOne({ id: userId });
+    const user = await this.usersRepository.findOne({
+      where: { id: userId }
+    });
 
     if (!user) {
       throw new NotFoundException('유저가 존재하지 않습니다');
