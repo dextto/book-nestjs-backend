@@ -1,12 +1,12 @@
 import * as uuid from 'uuid';
+import { ulid } from 'ulid';
+import { Connection, Repository } from 'typeorm';
 import { Injectable, InternalServerErrorException, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EmailService } from 'src/email/email.service';
 import { UserInfo } from './UserInfo';
-import { Connection, Repository } from 'typeorm';
 import { UserEntity } from './entity/user.entity';
-import { ulid } from 'ulid';
 import { AuthService } from 'src/auth/auth.service';
+import { EmailService } from 'src/email/email.service';
 
 @Injectable()
 export class UsersService {
@@ -33,9 +33,13 @@ export class UsersService {
   }
 
   private async checkUserExists(emailAddress: string): Promise<boolean> {
-    const user = await this.usersRepository.findOne({ email: emailAddress });
+    const user = await this.usersRepository.findOne({
+      where: {
+        email: emailAddress
+      }
+    });
 
-    return user !== undefined;
+    return user !== null;
   }
 
   private async saveUser(name: string, email: string, password: string, signupVerifyToken: string) {
