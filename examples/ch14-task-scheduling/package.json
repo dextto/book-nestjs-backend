@@ -2,7 +2,7 @@
   "name": "nest-typescript-starter",
   "private": true,
   "version": "2.0.0",
-  "description": "Nest TypeScript starter repository",
+  "description": "Examples for book-nestjs-backend",
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -20,7 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@nestjs/axios": "0.0.3",
+    "@nestjs/axios": "^0.1.0",
     "@nestjs/common": "^8.1.1",
     "@nestjs/config": "^1.0.3",
     "@nestjs/core": "^8.1.1",
