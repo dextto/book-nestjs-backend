@@ -21,7 +21,6 @@ import { ConsoleLogger, LoggerService, LogLevel } from '@nestjs/common';
 export class MyLogger extends ConsoleLogger {
   log(message: any, stack?: string, context?: string) {
     super.log.apply(this, arguments);
-    console.log('~~~~~~~~~~')
     this.doSomething();
   }
 
