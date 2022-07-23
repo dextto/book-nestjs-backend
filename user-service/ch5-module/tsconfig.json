@@ -12,5 +12,8 @@
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true
-  }
+  },
+  "include": [
+    "src/**/*"
+  ]
 }
