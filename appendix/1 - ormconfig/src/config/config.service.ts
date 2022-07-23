@@ -28,7 +28,7 @@ export class ConfigService {
       username: this.getValue('DATABASE_USERNAME'),
       password: this.getValue('DATABASE_PASSWORD'),
       database: 'test',
-      entities: ['dist/**/*.entity{.ts,.js}'],
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
       migrationsTableName: 'migrations',
       migrations: ['src/migration/*.ts'],
       cli: {

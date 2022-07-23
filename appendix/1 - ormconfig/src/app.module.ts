@@ -22,7 +22,7 @@ import { UsersModule } from './users/users.module';
     //   password: process.env.DATABASE_PASSWORD, // 'test',
     //   database: 'test',
     //   entities: [__dirname + '/**/*.entity{.ts,.js}'],
-    //   synchronize: Boolean(process.env.DATABASE_SYNCHRONIZE), // true,
+    //   synchronize: process.env.DATABASE_SYNCHRONIZE === 'true',
     // }),
     // 
     TypeOrmModule.forRoot(),

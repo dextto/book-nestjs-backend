@@ -35,8 +35,10 @@ import { DogHealthIndicator } from './health-check/dog.health';
       username: process.env.DATABASE_USERNAME, // 'root',
       password: process.env.DATABASE_PASSWORD, // 'test',
       database: 'test',
-      entities: ['dist/**/*.entity{.ts,.js}'],
-      synchronize: Boolean(process.env.DATABASE_SYNCHRONIZE), // true,
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: process.env.DATABASE_SYNCHRONIZE === 'true',
+      migrations: [__dirname + '/**/migrations/*.js'],
+      migrationsTableName: 'migrations',
     }),
     // WinstonModule.forRoot({
     //   transports: [
